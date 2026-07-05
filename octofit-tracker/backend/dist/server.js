@@ -8,7 +8,8 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const routes_1 = __importDefault(require("./routes"));
 const app = (0, express_1.default)();
-const port = process.env.PORT || 8000;
+const port = Number(process.env.PORT || 8000);
+const host = process.env.HOST || '0.0.0.0';
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
 const codespaceName = process.env.CODESPACE_NAME;
 const baseUrl = codespaceName
@@ -28,7 +29,7 @@ mongoose_1.default
     .connect(mongoUri)
     .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(port, () => {
+    app.listen(port, host, () => {
         console.log(`Backend listening on port ${port}`);
         console.log(`API base URL: ${baseUrl}`);
     });
@@ -36,7 +37,7 @@ mongoose_1.default
     .catch((error) => {
     console.error('MongoDB connection error:', error);
     console.log('Starting API without MongoDB connection');
-    app.listen(port, () => {
+    app.listen(port, host, () => {
         console.log(`Backend listening on port ${port}`);
         console.log(`API base URL: ${baseUrl}`);
     });
